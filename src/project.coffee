@@ -33,7 +33,7 @@ class Project
     @cwd.replace(/.+\//,'')
 
   language : ->
-    'coffee' # or 'js'
+    'js' # or 'coffee'
     
   configPath : ->
     Path.join(@cwd, "config.yml")
