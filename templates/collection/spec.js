@@ -1,14 +1,20 @@
-describe '<%= model %> collection', ->
+define(['backbone', 'collections/<%= model.capitalize() %>Collection'], function(Backbone, <%= model.capitalize() %>Collection) {
+    describe('<%= model %> collection', function() {
+        it('should handle the truth', function() {
+            expect(true).toBeTruthy();
+        });
 
-  it 'should handle the truth', ->
-    expect(true).toBeTruthy()
+        it('should exist', function() {
+            expect(<%= model.capitalize() %>Collection).toBeTruthy();
+        });
 
-  it 'should exist', ->
-    expect(<%= model.capitalize() %>Collection).toBeTruthy()
+        it('should instantiate', function() {
+            var x = new <%= model.capitalize() %>Collection();
+            expect(x instanceof <%= model.capitalize() %>Collection).toBeTruthy();
+            expect(x instanceof Backbone.Collection).toBeTruthy();
+            expect(x.model === <%= model.capitalize() %>).toBeTruthy()
+        });
+    });
+});
 
-  it 'should instantiate', ->
-    x = new <%= model.capitalize() %>Collection
-    expect(x instanceof <%= model.capitalize() %>Collection).toBeTruthy()
-    expect(x instanceof Backbone.Collection).toBeTruthy()
-    expect(x.model == <%= model.capitalize() %>).toBeTruthy()
 
