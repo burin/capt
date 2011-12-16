@@ -26,6 +26,7 @@ Usage:
 
   Code generators:
     * capt generate model post
+    * capt generate collection post
     * capt generate router posts
     * capt generate view posts show
     
