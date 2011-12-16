@@ -2,52 +2,47 @@
 
 `capt` is a tool to help you quickly create backbone.js applications and maintain a good directory structure and give you build tools to help development.
 
-Requirements
+This version of `capt` only includes the `new` and `generate` tasks.
 
-* Glob module
+It assumes the project will use [RequireJS](http://requirejs.org/) for module loading and dependency management. JavaScript is the preferred language in this fork.
 
-Development build targets:
 
-* localhost using built in server
-* file:// with file watching and recompiling
+Directory Structure:
 
-Production build targets:
-
-* web
-* html5 w/ offline manifest [planned]
-* nokia webruntime [planned]
-* phonegap [planned]
-* chrome appstore [planned]
-
-Optimizers supported:
-
-* Google Closure (css)
-* YUI (css and js)
-
-Languages supported:
-
-* Coffeescript
-* Javascript
-* LESS
+    index.html
+    app/
+     app.js
+     collections/
+     models/
+     routers/
+      templates/
+     views/
+    css/
+    lib/
+    spec/
 
 Testing framework:
 
 * Jasmine
 
-Libraries built in:
+Libraries built in (as AMD modules):
 
 * jQuery
 * backbone.js
 * underscore.js
+* require.js
+* handlebars.js
+* require-handlebars-plugin (https://github.com/SlexAxton/require-handlebars-plugin)
 
 ## License
 
-[BSD Licensed](http://creativecommons.org/licenses/BSD/). YUI Compressor and Closure are licenced under their respective licences.
+[BSD Licensed](http://creativecommons.org/licenses/BSD/). YUI Compressor and Closure are licensed under their respective licences.
 
 ## Author
 
 Ben Nolan @bnolan bnolan@gmail.com
 
+Modified by Burin Asavesna @burin
 
 # Changelog
 
