@@ -3,7 +3,8 @@
 //     app/
 //     spec/
 require([
-    '../spec/views/ApplicationViewSpec'
+// <specs to be run>
+    '../spec/views/ApplicationViewSpec'// </lastItem> last item marker, do not remove :)
 ],
 function() {
     jasmine.getEnv().addReporter(new jasmine.TrivialReporter());

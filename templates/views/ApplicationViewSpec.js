@@ -1,5 +1,5 @@
 define(['backbone', 'views/ApplicationView'], function(Backbone, ApplicationView) {
-    describe('application view', function() {
+    describe('ApplicationView', function() {
         it('should handle the truth', function() {
             expect(true).toBeTruthy();
         });

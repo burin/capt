@@ -1,5 +1,5 @@
 define(['backbone', 'collections/<%= model.capitalize() %>Collection', 'models/<%= model.capitalize() %>'], function(Backbone, <%= model.capitalize() %>Collection, <%= model.capitalize() %>) {
-    describe('<%= model %> collection', function() {
+    describe('<%= model.capitalize() %>Collection', function() {
         it('should handle the truth', function() {
             expect(true).toBeTruthy();
         });

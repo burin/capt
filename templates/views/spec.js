@@ -1,5 +1,5 @@
 define(['backbone', 'views/<%= router %>/<%= view.capitalize() %>View'], function(Backbone, <%= view.capitalize() %>View) {
-    describe('<%= view.capitalize() %> view', function() {
+    describe('<%= router.capitalize() %> <%= view.capitalize() %>View', function() {
         it('should handle the truth', function() {
             expect(true).toBeTruthy();
         });

@@ -113,6 +113,15 @@ task 'generate model', 'create a new model', (arguments) ->
   else
     raise("Must supply a name for the model")
 
+  appendToSpecRunner = (path) ->
+    specs = fs.readFileSync(Path.join(project.root, 'spec/spec.js')) + ""
+    marker = '// </lastItem>'
+    newSpecs = specs.split(marker)
+    newSpecs.splice(1,0,",\n    '#{path}'#{marker}")
+    newSpecs = newSpecs.join('')
+    
+    fs.writeFileSync(Path.join(project.root, 'spec/spec.js'), newSpecs)
+
   copyFile = (from, to) ->
     ejs = fs.readFileSync(from) + ""
     fs.writeFileSync(Path.join(project.root, to), _.template(ejs, { project : project, model : model }))
@@ -120,6 +129,8 @@ task 'generate model', 'create a new model', (arguments) ->
 
   copyFile "#{root}/templates/models/model.#{project.language()}", "app/models/#{model.capitalize()}.#{project.language()}"
   copyFile "#{root}/templates/models/spec.#{project.language()}", "spec/models/#{model.capitalize()}Spec.#{project.language()}"
+
+  appendToSpecRunner "../spec/models/#{model.capitalize()}Spec"
 
 
 task 'generate collection', 'create a new collection', (arguments) ->
@@ -130,6 +141,15 @@ task 'generate collection', 'create a new collection', (arguments) ->
   else
     raise("Must supply a name for the model")
 
+  appendToSpecRunner = (path) ->
+    specs = fs.readFileSync(Path.join(project.root, 'spec/spec.js')) + ""
+    marker = '// </lastItem>'
+    newSpecs = specs.split(marker)
+    newSpecs.splice(1,0,",\n    '#{path}'#{marker}")
+    newSpecs = newSpecs.join('')
+    
+    fs.writeFileSync(Path.join(project.root, 'spec/spec.js'), newSpecs)
+
   copyFile = (from, to) ->
     ejs = fs.readFileSync(from) + ""
     fs.writeFileSync(Path.join(project.root, to), _.template(ejs, { project : project, model : model }))
@@ -138,6 +158,7 @@ task 'generate collection', 'create a new collection', (arguments) ->
   copyFile "#{root}/templates/collection/collection.#{project.language()}", "app/collections/#{model.capitalize()}Collection.#{project.language()}"
   copyFile "#{root}/templates/collection/spec.#{project.language()}", "spec/collections/#{model.capitalize()}CollectionSpec.#{project.language()}"
 
+  appendToSpecRunner "../spec/collections/#{model.capitalize()}CollectionSpec"
 
 task 'generate router', 'create a new router', (arguments) ->
   project = new Project(process.cwd())
@@ -146,6 +167,15 @@ task 'generate router', 'create a new router', (arguments) ->
     router = arguments[0].toLowerCase()
   else
     raise("Must supply a name for the router")
+
+  appendToSpecRunner = (path) ->
+    specs = fs.readFileSync(Path.join(project.root, 'spec/spec.js')) + ""
+    marker = '// </lastItem>'
+    newSpecs = specs.split(marker)
+    newSpecs.splice(1,0,",\n    '#{path}'#{marker}")
+    newSpecs = newSpecs.join('')
+    
+    fs.writeFileSync(Path.join(project.root, 'spec/spec.js'), newSpecs)
 
   copyFile = (from, to) ->
     ejs = fs.readFileSync(from) + ""
@@ -161,6 +191,8 @@ task 'generate router', 'create a new router', (arguments) ->
   copyFile "#{root}/templates/routers/router.#{project.language()}", "app/router/#{router.capitalize()}Router.#{project.language()}"
   copyFile "#{root}/templates/routers/spec.#{project.language()}", "spec/routers/#{router.capitalize}RouterSpec.#{project.language()}"
 
+  appendToSpecRunner "../spec/routers/#{router.capitalize()}RouterSpec"
+
 task 'generate view', 'create a new view', (arguments) ->
   project = new Project(process.cwd())
 
@@ -169,6 +201,15 @@ task 'generate view', 'create a new view', (arguments) ->
     view = arguments[1].toLowerCase()
   else
     raise("Must supply a name for the router and then view")
+
+  appendToSpecRunner = (path) ->
+    specs = fs.readFileSync(Path.join(project.root, 'spec/spec.js')) + ""
+    marker = '// </lastItem>'
+    newSpecs = specs.split(marker)
+    newSpecs.splice(1,0,",\n    '#{path}'#{marker}")
+    newSpecs = newSpecs.join('')
+    
+    fs.writeFileSync(Path.join(project.root, 'spec/spec.js'), newSpecs)
 
   copyFile = (from, to) ->
     ejs = fs.readFileSync(from).toString()
@@ -189,6 +230,7 @@ task 'generate view', 'create a new view', (arguments) ->
   copyFile "#{root}/templates/templates/template.hbs", "app/templates/#{router}/#{view.capitalize()}Template.hbs"
   copyFile "#{root}/templates/views/spec.#{project.language()}", "spec/views/#{router}/#{view.capitalize()}ViewSpec.#{project.language()}"
 
+  appendToSpecRunner "../spec/views/#{router}/#{view.capitalize()}ViewSpec"
 
 if !task.done
   sys.puts $usage
