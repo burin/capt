@@ -1,13 +1,11 @@
 fs = require('fs')
 sys = require('sys')
 Path = require("path")
-Glob = require("glob").globSync
 
 root = __dirname + "/../"
 router = require("#{root}/lib/router")
 request = require("#{root}/lib/request")
 _ = require("#{root}/lib/underscore")
-yaml = require("#{root}/lib/yaml")
 server = router.getServer()
 Project = require("#{root}/src/project").Project
 
@@ -25,12 +23,6 @@ Usage:
   
   capt new projectname 
     - create a new project
-    
-  capt server
-    - serve the current project on port 3000
-      
-  capt watch
-    - watch the current project and recompile as needed
 
   Code generators:
     * capt generate model post
@@ -57,77 +49,6 @@ task = (command, description, func) ->
     func(data.arguments.slice(length))
     task.done = true
     
-#
-# Start the server
-#  
-task 'server', 'start a webserver', (arguments) ->
-  project = new Project(process.cwd())
-
-  server.get "/", (req, res, match) ->
-    ejs = fs.readFileSync("#{project.root}/index.jst") + ""
-    _.template(ejs, { project : project })
-
-  server.get "/spec/", (req, res) ->
-    ejs = fs.readFileSync("#{project.root}/spec/index.jst") + ""
-    _.template(ejs, { project : project })
-
-  server.get /(.*)/, router.staticDirHandler(project.root, '/')
-
-  project.watchAndBuild()
-  server.listen(3000)
-
-task 'build', 'concatenate and minify all javascript and stylesheets for production', (arguments) ->
-  project = new Project(process.cwd())
-
-  sys.puts "Building #{project.name()}..."
-
-  try
-    fs.mkdirSync "#{project.root}/build", 0755
-  catch e
-    # .. ok ..
-
-  output = "#{project.root}/build"
-  
-  try
-    fs.mkdirSync output, 0755
-  catch e
-    # .. ok ..
-
-  sys.puts " * Building css and js componenets"
-
-  # Todo - emit an event from project when the build is complete
-  project.watchAndBuild()
-
-  setTimeout( =>
-    sys.puts " * #{output}/bundled-javascript.js"
-    project.bundleJavascript("#{output}/bundled-javascript.js")
-
-    # Recompile the index.html to use the bundled urls
-    sys.puts " * #{output}/index.html"
-
-    project.scriptIncludes = ->
-      project.getScriptTagFor('/bundled-javascript.js')
-
-    project.stylesheetIncludes = ->
-      project.getStyleTagFor('/bundled-stylesheet.css')
-
-    for file in project.getDependencies('static')
-      project.compileFile(file)
-    # ejs = fs.readFileSync("#{project.root}/index.jst") + ""
-    # fs.writeFileSync("#{output}/index.html", _.template(ejs, { project : project }))
-
-  , 2000)
-  
-  # sys.puts " * #{output}/bundled-stylesheet.css"
-  # sys.puts "   - " + project.getStylesheetDependencies().join("\n   - ")
-  # 
-  # project.bundleStylesheet("#{output}/bundled-stylesheet.css")
-  # 
-
-
-task 'watch', 'watch files and compile as needed', (arguments) ->
-  project = new Project(process.cwd())
-  project.watchAndBuild()
 
 task 'new', 'create a new project', (arguments) ->
   project = arguments[0] or raise("Must supply a name for new project.")
@@ -158,7 +79,6 @@ task 'new', 'create a new project', (arguments) ->
     "app/templates/helpers/all.js" : "templates/helpers/all.js"
     "app/templates/i18n/en_us.json" : "templates/i18n/en_us.json"
     "app/templates/i18n/en_ca.json" : "templates/i18n/en_ca.json"
-    "config.yml" : "config.yml"
     "spec/index.jst" : "html/runner.jst"
     "spec/jasmine/jasmine-html.js" : "lib/jasmine-html.js"
     "spec/jasmine/jasmine.css" : "lib/jasmine.css"
@@ -242,46 +162,30 @@ task 'generate view', 'create a new view', (arguments) ->
   project = new Project(process.cwd())
 
   if arguments[0] and arguments[1]
-    controller = arguments[0].toLowerCase()
+    router = arguments[0].toLowerCase()
     view = arguments[1].toLowerCase()
   else
-    raise("Must supply a name for the controller and then view")
+    raise("Must supply a name for the router and then view")
 
   copyFile = (from, to) ->
     ejs = fs.readFileSync(from).toString()
-    fs.writeFileSync(Path.join(project.root, to), _.template(ejs, { project : project, controller: controller, view : view }))
+    fs.writeFileSync(Path.join(project.root, to), _.template(ejs, { project : project, router: router, view : view }))
     sys.puts " * Created #{to}"
 
-  if !Path.existsSync("#{project.root}/app/views/#{controller}")
-    fs.mkdirSync "#{project.root}/app/views/#{controller}", 0755
+  if !Path.existsSync("#{project.root}/app/views/#{router}")
+    fs.mkdirSync "#{project.root}/app/views/#{router}", 0755
 
-  if !Path.existsSync("#{project.root}/spec/views/#{controller}")
-    fs.mkdirSync "#{project.root}/spec/views/#{controller}", 0755
+  if !Path.existsSync("#{project.root}/spec/views/#{router}")
+    fs.mkdirSync "#{project.root}/spec/views/#{router}", 0755
 
 
-  if !Path.existsSync("#{project.root}/app/templates/#{controller}")
-    fs.mkdirSync "#{project.root}/app/templates/#{controller}", 0755
+  if !Path.existsSync("#{project.root}/app/templates/#{router}")
+    fs.mkdirSync "#{project.root}/app/templates/#{router}", 0755
 
-  copyFile "#{root}/templates/views/view.#{project.language()}", "app/views/#{controller}/#{view.capitalize()}View.#{project.language()}"
-  copyFile "#{root}/templates/templates/template.hbs", "app/templates/#{controller}/#{view.capitalize()}Template.hbs"
-  copyFile "#{root}/templates/views/spec.#{project.language()}", "spec/views/#{controller}/#{view.capitalize()}View.#{project.language()}"
+  copyFile "#{root}/templates/views/view.#{project.language()}", "app/views/#{router}/#{view.capitalize()}View.#{project.language()}"
+  copyFile "#{root}/templates/templates/template.hbs", "app/templates/#{router}/#{view.capitalize()}Template.hbs"
+  copyFile "#{root}/templates/views/spec.#{project.language()}", "spec/views/#{router}/#{view.capitalize()}View.#{project.language()}"
 
-# task 'spec', 'run the specs', (arguments) ->
-#   project = new Project(process.cwd())
-# 
-#   sys.puts " * Running specs..."
-#
-#   jasmine = require('jasmine-node')
-#   
-#   runLogger = (runner, log) ->
-#     if runner.results().failedCount == 0
-#       process.exit 0
-#     else
-#       process.exit 1
-#   
-#   jasmine.executeSpecsInFolder "spec/models", runLogger, true, true
-
-# No task was specified...
 
 if !task.done
   sys.puts $usage
