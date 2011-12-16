@@ -1,10 +1,10 @@
 define(['backbone'], function(Backbone) {
     var ApplicationView = Backbone.View.extend({
         initialize: function() {
+            this.el = $(this.el);
         },
-        el: $('#app'),
         render: function() {
-            this.el.append('<section>well hello there!</section>');
+            this.el.append('<section class="appended">well hello there!</section>');
         }
     });
 

@@ -1,24 +1,35 @@
-describe '<%= controller %> controller', ->
+define(['backbone', 'views/<%= router %>/<%= view.capitalize() %>View'], function(Backbone, <%= view.capitalize() %>View) {
+    describe('<%= view.capitalize() %> view', function() {
+        it('should handle the truth', function() {
+            expect(true).toBeTruthy();
+        });
 
-  describe '<%= view %> view', ->
+        it('should exist', function() {
+            expect(<%= view.capitalize() %>View).toBeTruthy();
+        });
 
-    it 'should handle the truth', ->
-      expect(true).toBeTruthy()
+        it('should instantiate', function() {
+            var x = new <%= view.capitalize() %>View({
+                model: new Backbone.Model()
+            });
+            expect(x instanceof <%= view.capitalize() %>View).toBeTruthy();
+            expect(x instanceof Backbone.View).toBeTruthy();
+        });
 
-    it 'should exist', ->
-      expect(<%= controller.capitalize() %><%= view.capitalize() %>View).toBeTruthy()
+        it('should have a render method', function() {
+            var x = new <%= view.capitalize() %>View({
+                model: new Backbone.Model()
+            });
+            x.render();
+        });
 
-    it 'should instantiate', ->
-      x = new <%= controller.capitalize() %><%= view.capitalize() %>View
-      expect(x instanceof <%= controller.capitalize() %><%= view.capitalize() %>View).toBeTruthy()
-      expect(x instanceof Backbone.View).toBeTruthy()
+        it('should render some text', function() {
+             var x = new <%= view.capitalize() %>View({
+                model: new Backbone.Model()
+             });
+            x.render();
+            expect(x.el.html()).toMatch('<%= view.capitalize() %> Template!');
+        });
+    });
+});
 
-    it 'should have render method', ->
-      x = new <%= controller.capitalize() %><%= view.capitalize() %>View
-      x.render()
-
-    # Implement as you see fit
-    xit 'should render some text', ->
-      x = new <%= controller.capitalize() %><%= view.capitalize() %>View { el : $("<div />") }
-      x.render()
-      expect(x.$(".myselector").html()).toMatch /some text/

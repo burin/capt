@@ -1,10 +1,11 @@
-define(['backbone', 'hbs!templates/<%= controller %>/<%= view.capitalize() %>Template'], function(Backbone, template) {
+define(['backbone', 'hbs!templates/<%= router %>/<%= view.capitalize() %>Template'], function(Backbone, template) {
     var <%= view.capitalize() %>View = Backbone.View.extend({
         initialize: function() {
+            this.el = $(this.el);
             this.model.bind('change', this.render, this);
         },
         render: function() {
-            this.el.innerHTML = this.template(this.model.toJSON());
+            this.el.html(this.template(this.model.toJSON()));
         },
         template: template
     });

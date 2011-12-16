@@ -11,12 +11,12 @@
 define: false, process: false, window: false */  
 define([
 //>>excludeStart('excludeAfterBuild', pragmas.excludeAfterBuild)
-'../lib/Handlebars/i18nprecompile', 'Handlebars'
+'../lib/Handlebars/i18nprecompile', 'Handlebars', 'underscore'
 // '../lib/Handlebars', '../lib/underscore', '../lib/Handlebars/i18nprecompile', '../lib/json2'
 //>>excludeEnd('excludeAfterBuild')
 ], function (
 //>>excludeStart('excludeAfterBuild', pragmas.excludeAfterBuild)
-  precompile, Handlebars
+  precompile, Handlebars, _
  // Handlebars, _, precompile, JSON
 //>>excludeEnd('excludeAfterBuild')
 ) {

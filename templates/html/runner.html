@@ -6,15 +6,20 @@
   <link rel="stylesheet" type="text/css" href="jasmine/jasmine.css">
   <script type="text/javascript" src="jasmine/jasmine.js"></script>
   <script type="text/javascript" src="jasmine/jasmine-html.js"></script>
-  <%= project.scriptIncludes() %>
-  <%= project.specIncludes() %>
 </head>
 <body>
-
-<script type="text/javascript">
-  jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-  jasmine.getEnv().execute();
+<script>
+var require = {
+  locale: 'en_us',
+  baseUrl: '../app',
+  paths  : {
+      'backbone' : '../lib/backbone',
+      'underscore' : '../lib/underscore',
+      'Handlebars' : '../lib/handlebars',
+      'hbs': '../lib/hbs'
+  }
+};
 </script>
-
+<script data-main="spec.js" src="../lib/require-jquery.js"></script>
 </body>
 </html>

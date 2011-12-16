@@ -80,7 +80,9 @@ task 'new', 'create a new project', (arguments) ->
     "app/templates/helpers/all.js" : "templates/helpers/all.js"
     "app/templates/i18n/en_us.json" : "templates/i18n/en_us.json"
     "app/templates/i18n/en_ca.json" : "templates/i18n/en_ca.json"
-    "spec/index.jst" : "html/runner.jst"
+    "spec/index.html" : "html/runner.html"
+    "spec/spec.js" : "spec.js"
+    "spec/views/ApplicationViewSpec.js" : "views/ApplicationViewSpec.js"
     "spec/jasmine/jasmine-html.js" : "lib/jasmine-html.js"
     "spec/jasmine/jasmine.css" : "lib/jasmine.css"
     "spec/jasmine/jasmine.js" : "lib/jasmine.js"
@@ -117,7 +119,7 @@ task 'generate model', 'create a new model', (arguments) ->
     sys.puts " * Created #{to}"
 
   copyFile "#{root}/templates/models/model.#{project.language()}", "app/models/#{model.capitalize()}.#{project.language()}"
-  copyFile "#{root}/templates/models/spec.#{project.language()}", "spec/models/#{model.capitalize()}.#{project.language()}"
+  copyFile "#{root}/templates/models/spec.#{project.language()}", "spec/models/#{model.capitalize()}Spec.#{project.language()}"
 
 
 task 'generate collection', 'create a new collection', (arguments) ->
@@ -134,7 +136,7 @@ task 'generate collection', 'create a new collection', (arguments) ->
     sys.puts " * Created #{to}"
 
   copyFile "#{root}/templates/collection/collection.#{project.language()}", "app/collections/#{model.capitalize()}Collection.#{project.language()}"
-  copyFile "#{root}/templates/collection/spec.#{project.language()}", "spec/collections/#{model.capitalize()}Collection.#{project.language()}"
+  copyFile "#{root}/templates/collection/spec.#{project.language()}", "spec/collections/#{model.capitalize()}CollectionSpec.#{project.language()}"
 
 
 task 'generate router', 'create a new router', (arguments) ->
@@ -157,7 +159,7 @@ task 'generate router', 'create a new router', (arguments) ->
     # ...
     
   copyFile "#{root}/templates/routers/router.#{project.language()}", "app/router/#{router.capitalize()}Router.#{project.language()}"
-  copyFile "#{root}/templates/routers/spec.#{project.language()}", "spec/routers/#{router.capitalize}Router.#{project.language()}"
+  copyFile "#{root}/templates/routers/spec.#{project.language()}", "spec/routers/#{router.capitalize}RouterSpec.#{project.language()}"
 
 task 'generate view', 'create a new view', (arguments) ->
   project = new Project(process.cwd())
@@ -185,7 +187,7 @@ task 'generate view', 'create a new view', (arguments) ->
 
   copyFile "#{root}/templates/views/view.#{project.language()}", "app/views/#{router}/#{view.capitalize()}View.#{project.language()}"
   copyFile "#{root}/templates/templates/template.hbs", "app/templates/#{router}/#{view.capitalize()}Template.hbs"
-  copyFile "#{root}/templates/views/spec.#{project.language()}", "spec/views/#{router}/#{view.capitalize()}View.#{project.language()}"
+  copyFile "#{root}/templates/views/spec.#{project.language()}", "spec/views/#{router}/#{view.capitalize()}ViewSpec.#{project.language()}"
 
 
 if !task.done
