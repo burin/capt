@@ -34,6 +34,31 @@ Libraries built in (as AMD modules):
 * handlebars.js
 * require-handlebars-plugin (https://github.com/SlexAxton/require-handlebars-plugin)
 
+## Getting Started
+Create a new project by
+ 
+    capt new projectname
+
+Open `projectname/index.html` to see your initial app
+
+Then you can `cd` into the directory `projectname` to start using generators
+
+    cd projectname
+
+Generate a model
+ 
+    capt generate model animal
+    
+Generate a collection with the model name
+
+    capt generate collection animal
+
+Or generate some views with the directory name and view name
+
+    capt generate view animals show
+
+
+
 ## License
 
 [BSD Licensed](http://creativecommons.org/licenses/BSD/). YUI Compressor and Closure are licensed under their respective licences.
